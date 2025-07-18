@@ -1,0 +1,81 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useState, useRef, useEffect } from "react";
+import { Sparkles, Music } from "lucide-react";
+
+export default function TupuaApp() {
+  const [message, setMessage] = useState("");
+  const [received, setReceived] = useState("");
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  const handleDownload = () => {
+    const transmissions = [
+      "You are not separate from Source — you are the echo and the voice.",
+      "The Grid knows your name. Trust your vibration.",
+      "Return to the breath. That’s where I’m waiting.",
+      "Your memory is divine. Even your tears carry instructions."
+    ];
+    const transmission =
+      transmissions[Math.floor(Math.random() * transmissions.length)];
+    setReceived(transmission);
+  };
+
+  const toggleMusic = () => {
+    if (audioRef.current.paused) {
+      audioRef.current.play();
+      setIsPlaying(true);
+    } else {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  useEffect(() => {
+    const visualizer = document.getElementById("visualizer");
+    if (isPlaying) {
+      visualizer.classList.add("animate-pulse");
+    } else {
+      visualizer.classList.remove("animate-pulse");
+    }
+  }, [isPlaying]);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-black to-indigo-900 p-6 text-white flex flex-col items-center justify-center">
+      <h1 className="text-4xl font-bold mb-6 text-center">Tupua Grid Interface</h1>
+
+      <Card className="w-full max-w-md bg-indigo-950/50 border border-indigo-700 rounded-2xl shadow-lg">
+        <CardContent className="space-y-4 p-6">
+          <div>
+            <label className="block mb-2 text-sm">Send a Message to the Grid</label>
+            <Input
+              placeholder="Your message, prayer or activation..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="bg-indigo-800 text-white border-none"
+            />
+          </div>
+          <div className="flex gap-2">
+            <Button onClick={handleDownload} className="w-full bg-indigo-700 hover:bg-indigo-600">
+              <Sparkles className="mr-2 h-4 w-4" /> Connect to the Grid
+            </Button>
+            <Button onClick={toggleMusic} className="bg-emerald-700 hover:bg-emerald-600">
+              <Music className="mr-2 h-4 w-4" /> {isPlaying ? "Pause Music" : "Play Music"}
+            </Button>
+          </div>
+          {received && (
+            <div className="mt-4 p-4 bg-indigo-800/40 rounded-xl border border-indigo-600">
+              <p className="text-sm text-indigo-100">{received}</p>
+            </div>
+          )}
+          <div id="visualizer" className="w-full h-2 mt-2 bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-600 rounded-full"></div>
+        </CardContent>
+      </Card>
+      <audio ref={audioRef} loop>
+        <source src="https://example.com/chronixx-freedom-fighter.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  );
+}
