@@ -176,3 +176,78 @@ Keep dated drafts and creation records. This template is not a substitute for ad
 5. Export a backup before major edits.
 6. Export a Markdown manuscript for editing and publication layout.
 7. Keep a version history and a permissions register for commercial work.
+
+
+---
+
+## 11. Customer discovery interview
+
+**Interview date:**  
+**Participant role (avoid unnecessary personal details):**  
+**Project / problem area:**  
+
+Explore how people currently handle the problem:
+
+1. How do you handle this task or problem today?
+2. What part takes the most time or causes the most frustration?
+3. What tools, services or workarounds have you already tried?
+4. Have you paid for a solution before? What made it worthwhile or disappointing?
+5. What would make the next step meaningfully easier for you?
+
+| Observed signal | Notes |
+|---|---|
+| Repeated pain point | |
+| Current workaround | |
+| What matters most | |
+| Buying objection or concern | |
+| Useful next experiment | |
+
+Record patterns across conversations, not private details. A polite expression of interest is not the same as a purchase commitment.
+
+---
+
+## 12. Offer and launch validation
+
+**Target customer:**  
+**Problem addressed:**  
+**One-sentence offer:**  
+**What the buyer receives:**  
+**What is excluded:**  
+**Test price and date:**  
+
+### Unit economics
+
+| Per-sale item | Amount |
+|---|---:|
+| List price | $ |
+| Storefront fee | $ |
+| Payment processing | $ |
+| Refund / support allowance | $ |
+| Estimated net per sale | $ |
+
+**One-time launch costs:**  
+**Break-even sales = one-time launch costs divided by estimated net per sale:**  
+
+### First launch scorecard
+
+| Measure | Result | What to learn |
+|---|---|---|
+| People reached | | |
+| Product page visits | | |
+| Sample downloads | | |
+| Paid orders | | |
+| Refunds / cancellations | | |
+| Common questions | | |
+
+### Small test design
+
+| Test element | Plan |
+|---|---|
+| Assumption to test | |
+| Who will see the offer? | |
+| Smallest useful sample / offer | |
+| Channel and time window | |
+| Budget cap (including $0) | |
+| Success signal / stop rule | |
+
+Before spending: show a sample to likely users, use an organic channel, state the price and limitations clearly, and decide what evidence would make you continue, revise or stop. Do not borrow or spend on ads based on projected revenue.
