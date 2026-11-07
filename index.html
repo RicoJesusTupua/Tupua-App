@@ -135,8 +135,7 @@
   }
   function renderEmptyDetail(){
     $("detailPanel").innerHTML='<div class="empty"><div class="empty-symbol">✧</div><h2>Your codex begins here.</h2><p>Create an entry for a thought, chapter, principle, project note or framework. Keep it organized and export your work whenever you need.</p><button class="btn primary" id="firstEntryBtn">Create your first entry</button></div>';
-    $("firstEntryBtn").addEventListener("click",openNew);
-  }
+    }
   function renderDetail(e){
     $("detailPanel").innerHTML='<div class="detail-top"><div class="eyebrow">'+escapeHtml(e.collection || "Unfiled")+' / '+escapeHtml(e.status)+'</div><div class="detail-actions"><button class="btn small" id="printBtn">Print</button><button class="btn small" id="editBtn">Edit</button><button class="btn small danger" id="deleteBtn">Delete</button></div></div><h2>'+escapeHtml(e.title)+'</h2><div class="detail-meta"><span>Created '+dateLabel(e.createdAt)+'</span><span>·</span><span>Updated '+dateLabel(e.updatedAt)+'</span><span>·</span><span>'+wordCount(e.body)+' words</span></div><div class="detail-meta" style="border:0;padding:12px 0 0">'+e.tags.map(t=>'<span class="tag">'+escapeHtml(t)+'</span>').join("")+'</div><article class="prose">'+escapeHtml(e.body || "This entry is empty. Choose Edit to add your content.")+'</article>';
     $("editBtn").addEventListener("click",()=>openEdit(e.id));
