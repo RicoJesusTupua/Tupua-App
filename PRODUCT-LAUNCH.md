@@ -18,11 +18,11 @@ Do not market it as an AI oracle, a source of supernatural knowledge, a secure v
 - The app stores entries only in the visitor's browser profile.
 - JSON backup and restore.
 - Markdown manuscript export and browser printing.
-- Ten creator-planning templates in `CREATOR-PACK.md`.
+- Twelve creator-planning templates in `CREATOR-PACK.md`.
 
 ## Simple first offer
 
-Start with a small digital download rather than a subscription service. The app prototype can be offered as a free companion; the paid item is the organized workbook/templates and a clear getting-started guide.
+Start with a small digital download rather than a subscription service. The app prototype can be offered as a free companion; the paid item is the designed, printable 16-page workbook in PDF and editable DOCX, plus a clear getting-started guide.
 
 **Price tests (hypotheses, not market research):**
 - Introductory toolkit: US$9–15.
@@ -37,13 +37,13 @@ Do not assume these prices will convert. Interview prospective customers, publis
 Tupua Codex Creator Pack — Manuscript Planner, Framework Builder & Research Organizer
 
 ### Short description
-Bring a big idea into a clear working structure. This creator toolkit includes a lightweight browser-based writing organizer and ten reusable templates for planning manuscripts, documenting frameworks, tracking research, reviewing risks, protecting backups and preparing work for publication.
+Bring a big idea into a clear working structure. This creator toolkit includes a lightweight browser-based writing organizer and twelve reusable templates for planning projects, documenting frameworks, structuring manuscripts, tracking research and permissions, reviewing risks, interviewing prospective customers and validating an offer.
 
 ### What buyers receive
 - Access to the browser-based Codex Studio prototype.
 - A designed 16-page printable and editable workbook with twelve templates, including customer discovery and offer/pricing validation.
 - JSON backup/import workflow and Markdown manuscript export.
-- A practical getting-started guide.
+- A practical getting-started guide and launch scorecard.
 - A checklist for preparing a work for publication.
 
 ### What it does not include
