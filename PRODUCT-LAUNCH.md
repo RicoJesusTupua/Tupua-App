@@ -55,6 +55,12 @@ Bring a big idea into a clear working structure. This creator toolkit includes a
 ### Call to action
 Start with one idea. Give it a structure. Keep a backup. Build the next version.
 
+## Recommended first test: Payhip Free
+
+Payhip's official pricing page currently lists a Free Forever plan at $0/month plus a 5% transaction fee; payment processor fees apply separately. Its current help guide explains how to upload a digital product, add a cover and description, and choose visibility. Start with an invisible draft, test the customer download, then soft-launch as unlisted before making it public. Do not assume a storefront is live until the seller account and listing are actually published.
+
+Prepared materials are in `storefront/PRODUCT-PAGE-COPY.md`, `storefront/PAYHIP-SETUP.md`, `storefront/FAQ.md`, and `storefront/cover.svg`.
+
 ## Low-upfront-cost storefront options
 
 Fees checked on 7 November 2026; verify the live fee pages and payout availability before opening an account.
