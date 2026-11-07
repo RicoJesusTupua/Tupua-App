@@ -1,0 +1,24 @@
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Local exports and backups
+*-backup-*.json
+codex-manuscript-*.md
+*.backup
+*.bak
+
+# Local tooling
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+node_modules/
+dist/
