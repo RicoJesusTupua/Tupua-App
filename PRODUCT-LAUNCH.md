@@ -55,6 +55,21 @@ Bring a big idea into a clear working structure. This creator toolkit includes a
 ### Call to action
 Start with one idea. Give it a structure. Keep a backup. Build the next version.
 
+## Low-upfront-cost storefront options
+
+Fees checked on 7 November 2026; verify the live fee pages and payout availability before opening an account.
+
+- **Payhip:** its Free plan is listed at $0/month plus a 5% transaction fee. PayPal/Stripe processing fees still apply. Payhip says it handles digital EU/UK VAT and US/Canadian sales-tax collection and remittance on the seller's behalf.
+- **Ko-fi:** its Free plan charges 5% on shop sales, plus the payment processor's fees. Payments go directly to the connected PayPal or Stripe account.
+- **Gumroad:** direct/profile sales are listed at 10% + $0.50 per transaction plus payment processing; marketplace Discover sales are 30%. Gumroad says it acts as merchant of record for sales-tax handling.
+
+**Practical starting point:** test Payhip Free or Ko-fi Free first, with no monthly subscription. Before choosing, check identity verification, payout eligibility, available payout methods, refund handling and the full fee schedule. These platforms do not guarantee customers or sales.
+
+Official fee pages:
+- https://payhip.com/pricing
+- https://help.ko-fi.com/hc/en-us/articles/360002506494-Does-Ko-fi-take-a-fee
+- https://gumroad.com/help/article/66-gumroads-fees
+
 ## Launch sequence
 
 1. **Protect the source:** keep private manuscripts, unpublished methods, customer details, access tokens and passwords out of this public repository.
