@@ -41,7 +41,7 @@ Bring a big idea into a clear working structure. This creator toolkit includes a
 
 ### What buyers receive
 - Access to the browser-based Codex Studio prototype.
-- A downloadable set of ten creator templates.
+- A designed 16-page printable and editable workbook with twelve templates, including customer discovery and offer/pricing validation.
 - JSON backup/import workflow and Markdown manuscript export.
 - A practical getting-started guide.
 - A checklist for preparing a work for publication.
