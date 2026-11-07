@@ -46,7 +46,7 @@ This MVP intentionally contains no private family material, unpublished manuscri
 
 ## Product direction
 
-The first practical offer is a creator toolkit: the app plus printable/editable planning templates for manuscripts, frameworks, research notes, ethical review and publication preparation. See `CREATOR-PACK.md` and `PRODUCT-LAUNCH.md`.
+The first practical offer is a creator toolkit: the app plus printable/editable planning templates for manuscripts, frameworks, research notes, ethical review and publication preparation. See `CREATOR-PACK.md`, `PRODUCT-LAUNCH.md`, and the `storefront/` folder for ready-to-paste Payhip copy, setup instructions, customer FAQ and original cover artwork.
 
 A paid hosted edition should not be launched until authentication, server-side authorization, encryption, backup/restore, privacy terms, support procedures and payment handling have been designed and tested.
 
@@ -55,6 +55,10 @@ A paid hosted edition should not be launched until authentication, server-side a
 This repository is currently **public**. Source files committed here can be read and copied by visitors. Do not place trade secrets, private Codex passages, proprietary prompts, credentials or protected personal information in this repository. Public posting does not make a secret confidential. Keep sensitive source materials in a private, access-controlled location and publish only the product code you intend to make public.
 
 The app's name and product positioning are working choices, not a representation that a trademark search or legal clearance has been completed. Check names, licensing, tax and consumer-law requirements before commercial release.
+
+## Storefront preparation
+
+The `storefront/` folder contains a product-page draft, Payhip setup checklist, customer FAQ and original SVG cover. These are preparation materials only: no Payhip account has been created and no product has been published. The paid workbook files are intentionally not stored in this public repository.
 
 ## Development notes
 
