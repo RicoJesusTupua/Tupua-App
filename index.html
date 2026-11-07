@@ -28,7 +28,7 @@
     footer{margin:20px 0 0;color:#718590;font-size:11px;text-align:center}.hidden{display:none!important}
     @media(max-width:1000px){.workspace{grid-template-columns:200px minmax(240px,320px) minmax(0,1fr)}.app{padding:22px 18px}}
     @media(max-width:760px){.workspace{grid-template-columns:1fr;min-height:auto}.sidebar{display:grid;grid-template-columns:1fr 1fr;gap:10px}.sidebar .side-note{grid-column:1/-1;margin-top:5px}.entry-list{max-height:330px}.detail{min-height:420px}.topbar{align-items:flex-start;flex-direction:column}.actions{width:100%}.stats{gap:7px}.stat{padding:11px}.stat b{font-size:19px}.form{grid-template-columns:1fr}.form .wide{grid-column:auto}.detail-top{align-items:flex-start;flex-direction:column}}
-    @media print{body{background:#fff;color:#111}.app,.topbar,.notice,.stats,.sidebar,.list-panel,.detail-actions,footer{display:none!important}.workspace{display:block}.panel{border:0;box-shadow:none}.detail{padding:0;color:#111}.detail h2,.prose{color:#111}.detail-meta{color:#555}.eyebrow{color:#775b1d}}
+    @media print{body{background:#fff;color:#111}.topbar,.notice,.stats,.sidebar,.list-panel,.detail-actions,footer{display:none!important}.workspace{display:block}.panel{border:0;box-shadow:none}.detail{padding:0;color:#111}.detail h2,.prose{color:#111}.detail-meta{color:#555}.eyebrow{color:#775b1d}}
   </style>
 </head>
 <body>
@@ -199,7 +199,6 @@
   $("fileInput").addEventListener("change",e=>importBackup(e.target.files[0]));
   $("search").addEventListener("input",render);
   $("entryList").addEventListener("click",e=>{const btn=e.target.closest("[data-entry]");if(btn){activeId=btn.dataset.entry;render();}});
-  $("collectionLinks").parentElement.addEventListener("click",e=>{const btn=e.target.closest("[data-collection]");if(btn){selectedCollection=btn.dataset.collection;activeId=null;render();}});
   document.querySelector(".sidebar").addEventListener("click",e=>{const btn=e.target.closest("[data-collection]");if(btn){selectedCollection=btn.dataset.collection;activeId=null;render();}});
   $("statusFilters").addEventListener("click",e=>{const btn=e.target.closest("[data-status]");if(btn){selectedStatus=btn.dataset.status;render();}});
   $("entryForm").addEventListener("submit",e=>{
@@ -212,7 +211,6 @@
     if(persist()){$("editor").close();notify("Entry saved in this browser.");}
   });
   document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="n"){e.preventDefault();openNew();}});
-  $("firstEntryBtn").addEventListener("click",openNew);
   render();
   // Manuscript export is available from the keyboard shortcut Ctrl/Cmd+Shift+E.
   document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==="e"){e.preventDefault();exportManuscript();}});
