@@ -5,6 +5,9 @@ on:
     branches: [development]
     paths:
       - "server/**"
+      - "functions/**"
+      - "base44-client/**"
+      - "package.json"
       - "prompts/tupua-assistant.md"
       - ".github/workflows/openai-adapter-tests.yml"
   pull_request:
