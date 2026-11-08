@@ -44,6 +44,10 @@ This MVP intentionally contains no private family material, unpublished manuscri
 - There is no sign-in, team workspace, payment flow, customer support portal or automated cloud backup.
 - The current app is a functional prototype, not a security-certified records system.
 
+## Finance Desk (development prototype)
+
+`finance.html` adds a manual, local-only ledger for gross revenue, refunds, platform fees, operating expenses, a configurable planning reserve, and retained operating result. It supports CSV/JSON backup and import. It does not process payments, connect bank accounts, store customer records, calculate taxes, or guarantee profit. The ledger uses browser `localStorage`, which is not encrypted or suitable for sensitive financial data. A production finance service requires authenticated server-side storage, access controls, audit logs, encrypted backups, data-retention policies, and a reviewed payment/accounting provider integration. Do not put API keys or payment secrets in browser code.
+
 ## Product direction
 
 The first practical offer is a creator toolkit: the app plus printable/editable planning templates for manuscripts, frameworks, research notes, ethical review and publication preparation. See `CREATOR-PACK.md`, `PRODUCT-LAUNCH.md`, and the `storefront/` folder for ready-to-paste Payhip copy, setup instructions, customer FAQ and original cover artwork.
