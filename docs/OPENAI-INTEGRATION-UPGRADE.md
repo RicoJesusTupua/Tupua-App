@@ -119,3 +119,21 @@ No live API key was created or used. No API request was sent. No production depl
 - Prompt engineering: https://developers.openai.com/api/docs/guides/prompt-engineering
 - API deployment checklist: https://developers.openai.com/api/docs/guides/deployment-checklist
 - Responses API create reference: https://developers.openai.com/api/reference/resources/responses/methods/create
+
+
+## 8. Development implementation added after the initial audit
+
+The following development-only files have now been committed on `development`:
+
+- `server/openai/responses-handler.mjs`: host-neutral Fetch API handler for `POST /v1/responses`; fixed model `gpt-6-astra`; medium reasoning and verbosity; `store: false`; typed output extraction; bounded request size; generic upstream errors.
+- `server/test/responses-handler.test.mjs`: six offline tests using mocked fetch.
+- `server/package.json`: minimal Node.js 20+ test manifest with no runtime dependencies.
+- `server/README.md`: host integration contract and deployment blockers.
+- `.github/workflows/openai-adapter-tests.yml`: GitHub Actions workflow to run the offline tests on relevant pushes and pull requests.
+- `prompts/tupua-assistant.md`: now loaded by the server adapter as the instructions source.
+
+The handler deliberately requires the hosting platform to inject a real `authenticate(request)` function. It does not accept a client-supplied user ID as proof of identity. No host-specific authentication implementation has been selected or added.
+
+**Verification boundary:** files were fetched back from GitHub and their key settings and six test definitions were checked. The available GitHub run lookup did not return a workflow run, so CI success has not been confirmed. No live OpenAI request has been made, and no credentials have been configured.
+
+The implementation is not mounted to the current static app and is not deployable as a complete service until host authentication, secret management, and hosting are supplied.
