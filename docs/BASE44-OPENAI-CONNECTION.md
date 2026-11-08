@@ -8,7 +8,7 @@
 - The Base44 function verifies the signed-in user and requires the Base44 admin role.
 - The OpenAI API key is read only from the server secret OPENAI_API_KEY.
 - The function uses the Responses API with gpt-6-astra, medium reasoning, medium verbosity, and store:false.
-- No model tools are enabled. No conversation history is persisted by this implementation.
+- No model tools are enabled. The app does not persist chat history. The message is transmitted to Base44 and OpenAI for processing; store:false disables Responses API object storage but is not a promise of zero provider-side retention. Review current provider data controls and terms before sending sensitive content.
 
 ## Files
 
