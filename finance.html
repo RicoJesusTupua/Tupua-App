@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101b25">
+<meta name="description" content="Tupua Finance Desk — a local-first revenue, cost and retained-profit tracker.">
+<title>Tupua Finance Desk</title>
+<style>
+:root{--bg:#0b1118;--panel:#121d27;--panel2:#172532;--line:#263847;--ink:#edf4f6;--muted:#99aab3;--gold:#d6b36a;--teal:#55c8b8;--red:#ef8d87}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 520px at 85% -10%,#17384a66,transparent 60%),var(--bg);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+a,button,input,select{font:inherit}.app{max-width:1200px;margin:auto;padding:28px 24px 50px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+h1{font-size:24px;margin:0}.sub{color:var(--muted);margin:4px 0 0;font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-block;border:1px solid var(--line);border-radius:9px;padding:9px 13px;background:#1a2935;color:var(--ink);text-decoration:none;font-weight:600;cursor:pointer}.btn.primary{background:var(--gold);color:#1a1a16;border-color:var(--gold)}
+.notice{border:1px solid #725e35;background:#2b2518;color:#f0dfb8;padding:12px 14px;border-radius:10px;font-size:13px;margin:16px 0}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}.metric,.panel{background:#111b25;border:1px solid var(--line);border-radius:13px;padding:16px}.metric b{display:block;font-size:23px;color:var(--gold);overflow-wrap:anywhere}.metric span{color:var(--muted);font-size:12px}
+.layout{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,1fr);gap:14px;align-items:start}.panel h2{font-size:17px;margin:0 0 14px}.field{display:grid;gap:5px;margin:10px 0}.field label{font-size:12px;color:var(--muted)}input,select{width:100%;background:#0b141c;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.wide{grid-column:1/-1}.muted{color:var(--muted);font-size:12px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--muted);font-weight:600}.num{text-align:right;font-variant-numeric:tabular-nums}.positive{color:var(--teal)}.negative{color:var(--red)}.rowactions button{padding:5px 8px;font-size:11px}.empty{text-align:center;color:var(--muted);padding:25px}.settings{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:12px 0}.settings .field{min-width:140px;max-width:190px;margin:0}
+footer{margin-top:24px;color:var(--muted);font-size:12px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){.app{padding:18px 13px}.metrics{grid-template-columns:1fr 1fr}.formgrid{grid-template-columns:1fr}.wide{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+<div><h1>Tupua Finance Desk</h1><p class="sub">Revenue · operating costs · fees · retained cash</p></div>
+<div class="actions"><a class="btn" href="index.html">← Codex Studio</a><button class="btn" id="exportCsv">Export CSV</button><button class="btn" id="exportJson">Backup JSON</button><label class="btn" for="importJson">Import backup</label><input id="importJson" type="file" accept=".json,application/json" hidden></div>
+</header>
+<div class="notice"><strong>Prototype boundary:</strong> this is a manual, local-only tracker. It does not connect to banks, collect payments, hold funds, calculate tax owed, or guarantee profit. Data stays in this browser profile and is not encrypted. Do not enter bank credentials, card numbers, customer personal data, or account identifiers. Keep a separate secure backup.</div>
+<section class="metrics" aria-label="All-time financial summary">
+<div class="metric"><b id="gross">$0.00</b><span>Gross revenue recorded</span></div>
+<div class="metric"><b id="costs">$0.00</b><span>Refunds, fees and expenses</span></div>
+<div class="metric"><b id="net">$0.00</b><span>Net operating result</span></div>
+<div class="metric"><b id="retained">$0.00</b><span>After estimated reserve</span></div>
+</section>
+<div class="layout">
+<section class="panel">
+<h2>Record a transaction</h2>
+<form id="entryForm">
+<div class="formgrid">
+<div class="field"><label for="kind">Transaction type</label><select id="kind" required><option value="revenue">Revenue received</option><option value="refund">Refund</option><option value="fee">Platform / processing fee</option><option value="expense">Operating expense</option></select></div>
+<div class="field"><label for="date">Date</label><input id="date" type="date" required></div>
+<div class="field wide"><label for="source">Source / platform / vendor</label><input id="source" maxlength="80" placeholder="e.g. digital product, subscription, hosting"></div>
+<div class="field"><label for="category">Category</label><select id="category"><option>Digital products</option><option>Subscriptions</option><option>Services</option><option>Licensing</option><option>Refunds</option><option>Platform fees</option><option>Software / hosting</option><option>Marketing</option><option>Equipment</option><option>Professional services</option><option>Other</option></select></div>
+<div class="field"><label for="amount">Amount (USD)</label><input id="amount" type="number" min="0.01" max="100000000" step="0.01" placeholder="0.00" required></div>
+<div class="field wide"><label for="note">Short note (no sensitive data)</label><input id="note" maxlength="160" placeholder="Optional description or reference"></div>
+</div>
+<button class="btn primary" type="submit">＋ Add transaction</button>
+<p class="muted">Enter positive amounts. Choose the transaction type to determine whether it adds to revenue or reduces the operating result.</p>
+</form>
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<h2>Planning reserve (estimate only)</h2>
+<div class="field"><label for="reserveRate">Reserve percentage of positive net result</label><input id="reserveRate" type="number" min="0" max="80" step="0.5" value="25"></div>
+<p class="muted">This is a planning placeholder, not a tax calculation or recommendation. Confirm obligations and an appropriate reserve with a qualified tax professional.</p>
+</section>
+<section class="panel">
+<h2>Transaction ledger</h2>
+<div class="settings">
+<div class="field"><label for="period">View</label><select id="period"><option value="all">All time</option><option value="month">Current month</option></select></div>
+<div class="field"><label for="typeFilter">Type</label><select id="typeFilter"><option value="all">All types</option><option value="revenue">Revenue</option><option value="refund">Refunds</option><option value="fee">Fees</option><option value="expense">Expenses</option></select></div>
+</div>
+<div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Source / category</th><th class="num">Amount</th><th></th></tr></thead><tbody id="ledger"></tbody></table></div>
+<p class="muted" id="count">0 records</p>
+</section>
+</div>
+<footer>© <span id="year"></span> Tupua Finance Desk · Internal planning tool. No financial, tax, legal, or investment outcomes are promised.</footer>
+</div>
+<script>
+(() => {
+  const KEY='tupua-finance-desk-v1';
+  const $=id=>document.getElementById(id);
+  const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n||0);
+  const labels={revenue:'Revenue',refund:'Refund',fee:'Platform fee',expense:'Expense'};
+  let entries=[];
+  try { const raw=localStorage.getItem(KEY); entries=raw?JSON.parse(raw):[]; if(!Array.isArray(entries)) entries=[]; } catch { entries=[]; }
+  const save=()=>localStorage.setItem(KEY,JSON.stringify(entries));
+  const dateNow=new Date(); $('date').value=new Date(dateNow.getTime()-dateNow.getTimezoneOffset()*60000).toISOString().slice(0,10);
+  $('year').textContent=dateNow.getFullYear();
+  function visible(){
+    const period=$('period').value, filter=$('typeFilter').value;
+    const month=dateNow.toISOString().slice(0,7);
+    return entries.filter(e=>(period==='all'||e.date.slice(0,7)===month)&&(filter==='all'||e.kind===filter)).sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt-a.createdAt);
+  }
+  function render(){
+    const gross=entries.filter(e=>e.kind==='revenue').reduce((s,e)=>s+e.amount,0);
+    const refunds=entries.filter(e=>e.kind==='refund').reduce((s,e)=>s+e.amount,0);
+    const fees=entries.filter(e=>e.kind==='fee').reduce((s,e)=>s+e.amount,0);
+    const expenses=entries.filter(e=>e.kind==='expense').reduce((s,e)=>s+e.amount,0);
+    const net=gross-refunds-fees-expenses;
+    const rate=Math.min(80,Math.max(0,Number($('reserveRate').value)||0))/100;
+    const reserve=Math.max(0,net)*rate;
+    $('gross').textContent=money(gross); $('costs').textContent=money(refunds+fees+expenses);
+    $('net').textContent=money(net); $('net').className=net>=0?'positive':'negative';
+    $('retained').textContent=money(net-reserve);
+    const rows=visible();
+    $('ledger').innerHTML=rows.length?rows.map(e=>'<tr><td>'+escapeHtml(e.date)+'</td><td>'+labels[e.kind]+'</td><td>'+escapeHtml(e.source||e.category||'—')+'<br><span class="muted">'+escapeHtml(e.category||'')+'</span></td><td class="num '+(e.kind==='revenue'?'positive':'')+'">'+(e.kind==='revenue'?'+':'−')+money(e.amount)+'</td><td class="rowactions"><button class="btn" data-delete="'+e.id+'" aria-label="Delete transaction">Delete</button></td></tr>').join(''):'<tr><td colspan="5" class="empty">No transactions match this view.</td></tr>';
+    $('count').textContent=rows.length+' visible record'+(rows.length===1?'':'s')+' · '+entries.length+' total';
+  }
+  function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  $('entryForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    const amount=Number($('amount').value), kind=$('kind').value, date=$('date').value;
+    if(!Number.isFinite(amount)||amount<=0||amount>100000000||!date)return;
+    entries.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2),kind,date,amount:Math.round(amount*100)/100,source:$('source').value.trim(),category:$('category').value,note:$('note').value.trim(),createdAt:Date.now()});
+    save(); $('entryForm').reset(); $('date').value=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10); render();
+  });
+  $('ledger').addEventListener('click',e=>{
+    const btn=e.target.closest('[data-delete]'); if(!btn)return;
+    if(!confirm('Delete this transaction from this browser?'))return;
+    entries=entries.filter(x=>x.id!==btn.dataset.delete);save();render();
+  });
+  $('period').addEventListener('change',render); $('typeFilter').addEventListener('change',render); $('reserveRate').addEventListener('input',render);
+  function download(name,type,content){const a=document.createElement('a'),url=URL.createObjectURL(new Blob([content],{type}));a.href=url;a.download=name;a.click();URL.revokeObjectURL(url);}
+  $('exportJson').addEventListener('click',()=>download('tupua-finance-backup.json','application/json',JSON.stringify({version:1,entries},null,2)));
+  $('exportCsv').addEventListener('click',()=>{
+    const cols=['date','kind','amount','source','category','note'];
+    const csv=[cols.join(','),...entries.map(e=>cols.map(k=>'"'+String(e[k]??'').replace(/"/g,'""')+'"').join(','))].join('\n');
+    download('tupua-finance-ledger.csv','text/csv;charset=utf-8',csv);
+  });
+  $('importJson').addEventListener('change',async e=>{
+    const file=e.target.files[0];if(!file)return;
+    try{const parsed=JSON.parse(await file.text());const list=Array.isArray(parsed)?parsed:parsed.entries;if(!Array.isArray(list)||!list.every(x=>x&&['revenue','refund','fee','expense'].includes(x.kind)&&Number.isFinite(Number(x.amount))&&Number(x.amount)>0&&/^\d{4}-\d{2}-\d{2}$/.test(x.date)))throw new Error('Invalid backup');
+      if(!confirm('Import replaces the current finance ledger. Export a backup first. Continue?'))return;
+      entries=list.map(x=>({...x,amount:Math.round(Number(x.amount)*100)/100,id:String(x.id||Date.now()+Math.random())}));save();render();
+    }catch{alert('Could not import this file. Use a valid Tupua Finance Desk JSON backup.');}
+    finally{e.target.value='';}
+  });
+  render();
+})();
+</script>
+</body>
+</html>

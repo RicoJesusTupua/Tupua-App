@@ -1,0 +1,39 @@
+name: OpenAI adapter tests
+
+on:
+  push:
+    branches: [development]
+    paths:
+      - "server/**"
+      - "functions/**"
+      - "base44-client/**"
+      - "package.json"
+      - "prompts/tupua-assistant.md"
+      - ".github/workflows/openai-adapter-tests.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "server/**"
+      - "functions/**"
+      - "base44-client/**"
+      - "package.json"
+      - "prompts/tupua-assistant.md"
+      - ".github/workflows/openai-adapter-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+      - name: Run offline adapter tests
+        working-directory: server
+        run: npm test

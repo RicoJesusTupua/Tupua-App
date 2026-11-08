@@ -44,6 +44,10 @@ This MVP intentionally contains no private family material, unpublished manuscri
 - There is no sign-in, team workspace, payment flow, customer support portal or automated cloud backup.
 - The current app is a functional prototype, not a security-certified records system.
 
+## Finance Desk (development prototype)
+
+`finance.html` adds a manual, local-only ledger for gross revenue, refunds, platform fees, operating expenses, a configurable planning reserve, and retained operating result. It supports CSV/JSON backup and import. It does not process payments, connect bank accounts, store customer records, calculate taxes, or guarantee profit. The ledger uses browser `localStorage`, which is not encrypted or suitable for sensitive financial data. A production finance service requires authenticated server-side storage, access controls, audit logs, encrypted backups, data-retention policies, and a reviewed payment/accounting provider integration. Do not put API keys or payment secrets in browser code.
+
 ## Product direction
 
 The first practical offer is a creator toolkit: the app plus printable/editable planning templates for manuscripts, frameworks, research notes, ethical review and publication preparation. See `CREATOR-PACK.md`, `PRODUCT-LAUNCH.md`, and the `storefront/` folder for ready-to-paste Payhip copy, setup instructions, customer FAQ and original cover artwork.
@@ -59,6 +63,12 @@ The app's name and product positioning are working choices, not a representation
 ## Storefront preparation
 
 The `storefront/` folder contains a product-page draft, Payhip setup checklist, customer FAQ and original SVG cover. These are preparation materials only: no Payhip account has been created and no product has been published. The paid workbook files are intentionally not stored in this public repository.
+
+## Optional Base44 assistant integration (not deployed)
+
+The repository now includes a Base44 server function and an opt-in assistant panel under `functions/` and `base44-client/`. The function requires a signed-in Base44 administrator, reads `OPENAI_API_KEY` only from Base44 server secrets, limits request size, and sends requests through the OpenAI Responses API with `store: false`. The panel sends content only after the user presses Send and does not save chat history. Messages are transmitted to Base44 and OpenAI for processing; do not submit sensitive information.
+
+This is an integration scaffold, not a live connection. The current root `index.html` remains a separate static, local-first app with no Base44 session. The Base44 dashboard source is not included in this repository, and the function has not been deployed. See `docs/BASE44-OPENAI-CONNECTION.md` for the exact handoff and remaining production controls. An eligible adult account administrator must provision the server secret and approve activation.
 
 ## Development notes
 
