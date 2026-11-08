@@ -89,3 +89,24 @@ test("does not expose upstream error details", async () => {
   assert.equal(response.status, 502);
   assert.equal(JSON.stringify(body).includes("private upstream detail"), false);
 });
+
+
+test("rejects malformed JSON", async () => {
+  const handler = createTupuaAssistantHandler({ createClient: adminClient, readSecret: () => "test-key" });
+  const bad = new Request("https://base44.example.test/api/functions/tupuaAssistant", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: "{",
+  });
+  assert.equal((await handler(bad)).status, 400);
+});
+
+test("enforces the raw request body byte limit", async () => {
+  const handler = createTupuaAssistantHandler({ createClient: adminClient, readSecret: () => "test-key" });
+  const oversized = new Request("https://base44.example.test/api/functions/tupuaAssistant", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ input: "x".repeat(17_000) }),
+  });
+  assert.equal((await handler(oversized)).status, 413);
+});
