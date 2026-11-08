@@ -27,7 +27,7 @@ export default function TupuaAssistantPanel({ base44 }) {
   return (
     <section aria-label="Tupua assistant" className="rounded-xl border p-4 space-y-3">
       <h2 className="text-lg font-semibold">Tupua Assistant</h2>
-      <p className="text-sm opacity-75">Your message is sent only when you press Send. This panel does not save chat history.</p>
+      <p className="text-sm opacity-75">Pressing Send transmits your message to the Base44 backend and OpenAI for processing. This panel does not save chat history. Do not submit passwords, personal identifiers, confidential records, or sensitive financial or health information.</p>
       <form onSubmit={submit} className="space-y-2">
         <textarea value={input} onChange={(event) => setInput(event.target.value)}
           maxLength={12000} rows={4} required aria-label="Message"
