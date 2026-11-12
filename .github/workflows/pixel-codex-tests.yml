@@ -1,0 +1,30 @@
+name: Pixel LED Codex tests
+
+on:
+  push:
+    branches:
+      - "codex/**"
+  pull_request:
+    paths:
+      - "pixel-codex/**"
+      - ".github/workflows/pixel-codex-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Unit tests (no deployment)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pixel-codex
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run unit tests
+        run: npm test
