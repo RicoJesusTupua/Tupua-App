@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071321">
+  <meta name="description" content="Tupua Pixel LED Codex — a local-first interactive visualization and example-to-blueprint prototype.">
+  <title>Tupua Pixel LED Codex</title>
+  <style>
+    :root{color-scheme:dark;--bg:#071321;--panel:#0d1d2e;--panel2:#102438;--line:#203b51;--text:#e9f4fa;--muted:#9bb1c1;--cyan:#72f3ff;--violet:#a9a0ff;--amber:#ffd28a;--radius:18px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(ellipse at 50% -15%,#17314b 0%,var(--bg) 55%);color:var(--text);min-height:100vh}
+    button,input,select,textarea{font:inherit}
+    button{border:1px solid #31516a;background:#173149;color:var(--text);padding:11px 15px;border-radius:11px;cursor:pointer;font-weight:650;min-height:42px}
+    button:hover:not(:disabled){border-color:var(--cyan);background:#1a3a53}
+    button:disabled{opacity:.4;cursor:not-allowed}
+    input,select,textarea{width:100%;background:#081827;border:1px solid #29465d;border-radius:10px;color:var(--text);padding:10px 12px;min-height:42px}
+    input[type=range]{padding:0;accent-color:var(--cyan);min-height:24px}
+    input[type=checkbox]{width:18px;min-height:18px;accent-color:var(--cyan)}
+    label{display:grid;gap:7px;color:#c4d5df;font-size:.88rem}
+    .shell{width:min(1120px,calc(100% - 32px));margin:0 auto;padding:30px 0 48px}
+    header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}
+    .eyebrow{color:var(--cyan);font:700 .72rem ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase}
+    h1{font-size:clamp(1.7rem,4vw,2.8rem);letter-spacing:-.04em;margin:7px 0}
+    h2{font-size:1.1rem;margin:0 0 12px}
+    p{color:var(--muted);line-height:1.55;margin:6px 0}
+    .status{border:1px solid #28665e;color:#9bf2d2;background:#0d302c;padding:7px 10px;border-radius:999px;font-size:.75rem;white-space:nowrap}
+    .hero{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,.8fr);gap:16px}
+    .panel{background:linear-gradient(145deg,rgba(17,39,59,.97),rgba(9,25,40,.97));border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:0 18px 50px rgba(0,0,0,.16)}
+    .visual-panel{padding:12px;overflow:hidden}
+    .visual-top{display:flex;justify-content:space-between;align-items:center;padding:5px 6px 12px;gap:12px}
+    .tiny{font: .7rem ui-monospace,monospace;color:#9ac7d5;letter-spacing:.07em}
+    #holoCanvas{width:100%;height:330px;display:block;border-radius:13px;border:1px solid #1a3850;touch-action:none;cursor:grab}
+    #holoCanvas:active{cursor:grabbing}
+    .visual-bottom{display:flex;justify-content:space-between;gap:12px;padding:11px 5px 3px;color:var(--muted);font-size:.78rem}
+    .controls{display:grid;gap:15px}
+    .control{display:grid;gap:7px}
+    .control-head{display:flex;justify-content:space-between;gap:12px;color:#c9dbe4;font-size:.84rem}
+    output{color:var(--cyan);font: .78rem ui-monospace,monospace}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .section{margin-top:16px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+    .tag{font-size:.7rem;color:#a7dce5;border:1px solid #28516a;border-radius:999px;padding:5px 8px}
+    .principle{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;background:#091a2a;border:1px solid #25445d;border-radius:14px;padding:14px;text-align:center;margin:14px 0}
+    .principle strong{color:var(--cyan);font:700 .9rem ui-monospace,monospace;letter-spacing:.06em}
+    .arrow{color:#67899f}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .form-grid .wide{grid-column:1/-1}
+    .actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+    .primary{background:linear-gradient(110deg,#146177,#304c86);border-color:#3b92a7}
+    .example-list{display:grid;gap:8px}
+    .example-item{display:flex;grid-template-columns:none;align-items:center;gap:10px;padding:10px;border:1px solid #244158;border-radius:11px;background:#0a1a29}
+    .example-item span{display:grid;gap:3px}
+    .example-item strong{font-size:.88rem;color:#e6f2f7}
+    .example-item small{font-size:.72rem;color:var(--muted)}
+    .output-panel{margin-top:14px}
+    pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:380px;overflow:auto;background:#061321;border:1px solid #203a50;border-radius:12px;padding:14px;color:#c6edf2;font: .78rem/1.55 ui-monospace,SFMono-Regular,Consolas,monospace}
+    .notice{border-left:3px solid var(--amber);padding:10px 12px;background:#241e16;border-radius:0 10px 10px 0;color:#e8d4b1;font-size:.8rem;line-height:1.5}
+    footer{padding:20px 4px;color:#7893a5;font-size:.75rem;line-height:1.6}
+    @media(max-width:760px){.shell{width:min(100% - 22px,600px);padding-top:20px}.hero{grid-template-columns:1fr}#holoCanvas{height:280px}.panel{padding:15px}header{align-items:flex-start}.status{font-size:.67rem}}
+    @media(max-width:420px){.form-grid,.two{grid-template-columns:1fr}.form-grid .wide{grid-column:auto}.visual-bottom{font-size:.68rem}.actions button{flex:1 1 45%}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <div class="eyebrow">Tupua Intelligence System · Development module</div>
+        <h1>Pixel LED Codex</h1>
+        <p>Explore light, geometry, spatial layers, and reusable examples.</p>
+      </div>
+      <span class="status">LOCAL PROTOTYPE · NO DEPLOY</span>
+    </header>
+
+    <section class="hero" aria-label="Holographic visualization and controls">
+      <div class="panel visual-panel">
+        <div class="visual-top">
+          <span class="tiny">OPTICAL CODEX / SIMULATED PROJECTION</span>
+          <span class="tag">3D-style canvas</span>
+        </div>
+        <canvas id="holoCanvas" tabindex="0" role="img" aria-label="Interactive simulated three-dimensional luminous pixel cube. Drag to rotate or use arrow keys."></canvas>
+        <div class="visual-bottom"><span>Drag to rotate · Arrow keys also work</span><span id="dimensionValue">3D</span></div>
+      </div>
+      <aside class="panel controls">
+        <div>
+          <div class="eyebrow">01 / Visual parameters</div>
+          <h2>Projection controls</h2>
+        </div>
+        <label class="control">
+          <span class="control-head"><span>Conceptual layer depth</span><output id="dimensionValue">3D</output></span>
+          <input id="dimension" type="range" min="1" max="11" value="3" aria-label="Conceptual layer depth">
+          <small id="dimensionName" class="tiny">Depth and geometry</small>
+        </label>
+        <label class="control">
+          <span class="control-head"><span>LED brightness</span><output id="brightnessValue">82%</output></span>
+          <input id="brightness" type="range" min="20" max="100" value="82">
+        </label>
+        <label class="control">
+          <span class="control-head"><span>Pixel spacing</span><output id="pixelValue">5</output></span>
+          <input id="pixelSize" type="range" min="3" max="12" value="5">
+        </label>
+        <label>Light palette
+          <select id="palette">
+            <option value="cyan">Arctic cyan</option>
+            <option value="violet">Violet / ice</option>
+            <option value="amber">Solar amber</option>
+          </select>
+        </label>
+        <button id="motionToggle" type="button">Pause rotation</button>
+        <div class="notice">The 1D–11D selector reveals conceptual information layers. It does not create or measure extra physical dimensions. This is a 2D canvas simulation, not a floating optical hologram.</div>
+      </aside>
+    </section>
+
+    <section class="panel section">
+      <div class="section-head">
+        <div><div class="eyebrow">02 / Creative instruction</div><h2>For Example → All Examples</h2></div>
+        <span class="tag">Structured knowledge</span>
+      </div>
+      <div class="principle"><strong>FOR EXAMPLE</strong><span class="arrow">→</span><span>Interpret</span><span class="arrow">→</span><span>Deconstruct</span><span class="arrow">→</span><span>Combine</span><span class="arrow">→</span><strong>ALL EXAMPLES</strong></div>
+      <p>Enter a description. The local engine organizes it into a portable, reviewable blueprint. It does not execute generated code or connect to outside systems.</p>
+      <form id="exampleForm">
+        <div class="form-grid">
+          <label>Example title<input name="title" required maxlength="120" placeholder="e.g. Layered light sculpture"></label>
+          <label>Category<input name="category" maxlength="80" placeholder="visualization, science, design"></label>
+          <label class="wide">For example, describe the idea<textarea name="source" required maxlength="2000" rows="3" placeholder="For example: a cube made from addressable light points, with adjustable depth and brightness."></textarea></label>
+          <label>Representation
+            <select name="representation">
+              <option value="conceptual 3D visualization">Conceptual 3D visualization</option>
+              <option value="pixel matrix">Pixel matrix</option>
+              <option value="LED lighting model">LED lighting model</option>
+              <option value="microscopy image model">Microscopy image model</option>
+              <option value="data structure">Data structure</option>
+            </select>
+          </label>
+          <label>Provenance
+            <select name="sourceType">
+              <option value="user-provided">User-provided description</option>
+              <option value="simulated">Simulated example</option>
+            </select>
+          </label>
+        </div>
+        <div class="actions"><button class="primary" type="submit">Interpret example</button></div>
+      </form>
+    </section>
+
+    <section class="panel section">
+      <div class="section-head">
+        <div><div class="eyebrow">03 / Example engine</div><h2>Example library</h2></div>
+        <span id="exampleCount" class="tag">2 examples</span>
+      </div>
+      <p>Select examples to combine their descriptive structures. Starter examples are simulations.</p>
+      <div id="exampleList" class="example-list"></div>
+      <div class="actions">
+        <button id="deconstructButton" type="button">Deconstruct first example</button>
+        <button id="combineButton" type="button" class="primary">Combine selected</button>
+      </div>
+    </section>
+
+    <section class="panel section">
+      <div class="section-head">
+        <div><div class="eyebrow">04 / Translation layer</div><h2>Portable AI Codex exports</h2></div>
+        <span class="tag">Human review required</span>
+      </div>
+      <p>Export a structured description for later adaptation. Base44 and GitHub targets are architecture options, not active connections from this standalone page.</p>
+      <div class="actions">
+        <button id="blueprintButton" type="button" class="primary">Generate JSON blueprint</button>
+        <button id="typescriptButton" type="button">View TypeScript contract</button>
+        <button id="exportButton" type="button">Export example bundle</button>
+      </div>
+      <div id="outputPanel" class="output-panel" hidden>
+        <div class="section-head"><h2 id="outputTitle">Output</h2><span class="tag">Review before use</span></div>
+        <pre id="output"></pre>
+      </div>
+    </section>
+
+    <section class="panel section">
+      <div class="eyebrow">05 / Sensor boundary</div>
+      <h2>Physical input status</h2>
+      <div class="two">
+        <div><span class="tag">SIMULATED DISPLAY</span><p>Pixel positions, brightness, color, rotation, and geometry are generated locally by this prototype.</p></div>
+        <div><span class="tag">NO SENSOR CONNECTED</span><p>Oxygen, smoke, scent, temperature, and other physical measurements require compatible hardware and an authorized data connection.</p></div>
+      </div>
+      <p class="notice">Never label generated or simulated values as live measurements. Do not use this prototype for medical, environmental, safety, or industrial decisions.</p>
+    </section>
+
+    <footer>
+      Tupua Pixel LED Codex · Version 0.1.0 · <span id="year"></span><br>
+      Local-first prototype. No network requests, analytics, API keys, cloud storage, external libraries, or automatic execution. User-entered examples remain in page memory unless manually exported.
+    </footer>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
