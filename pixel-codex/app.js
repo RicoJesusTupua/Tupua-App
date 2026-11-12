@@ -23,6 +23,7 @@ const state = {
   pixelSize: 5,
   hue: "cyan",
   dimension: 3,
+  selectedExampleIds: new Set(["starter-cube", "starter-led"]),
   examples: [
     createExample({
       id: "starter-cube",
@@ -117,10 +118,8 @@ function drawFrame(time) {
   for (let i = 0; i < vertices.length; i++) {
     for (let j = i + 1; j < vertices.length; j++) {
       const a = vertices[i], b = vertices[j];
-      if (Math.abs(a.x - b.x) + Math.abs(a.y - b.y) > 1 && Math.abs(a.z - b.z) > 0.1) {
-        const bitDiff = Math.abs((i ^ j));
-        if ([1, 2, 4].includes(bitDiff)) edges.push([a, b]);
-      }
+      const bitDiff = Math.abs((i ^ j));
+      if ([1, 2, 4].includes(bitDiff)) edges.push([a, b]);
     }
   }
   ctx.shadowBlur = 15;
@@ -204,6 +203,7 @@ canvas.addEventListener("keydown", (event) => {
 $("#dimension").addEventListener("input", (event) => {
   state.dimension = Number(event.target.value);
   $("#dimensionValue").textContent = state.dimension + "D";
+  $("#dimensionBadge").textContent = state.dimension + "D";
   const layer = DIMENSION_LAYERS[state.dimension - 1];
   $("#dimensionName").textContent = layer.name;
 });
@@ -244,7 +244,11 @@ function renderExamples() {
     item.className = "example-item";
     const check = document.createElement("input");
     check.type = "checkbox";
-    check.checked = index < 2;
+    check.checked = state.selectedExampleIds.has(example.id);
+    check.addEventListener("change", () => {
+      if (check.checked) state.selectedExampleIds.add(example.id);
+      else state.selectedExampleIds.delete(example.id);
+    });
     check.dataset.exampleIndex = String(index);
     check.setAttribute("aria-label", "Select " + example.title);
     const text = document.createElement("span");
@@ -290,9 +294,7 @@ $("#deconstructButton").addEventListener("click", () => {
   showOutput("Deconstructed example", deconstructExample(selected));
 });
 $("#combineButton").addEventListener("click", () => {
-  const selectedIndexes = [...document.querySelectorAll("[data-example-index]:checked")]
-    .map((input) => Number(input.dataset.exampleIndex));
-  const selected = selectedIndexes.map((index) => state.examples[index]).filter(Boolean);
+  const selected = state.examples.filter((example) => state.selectedExampleIds.has(example.id));
   try {
     showOutput("Combined example blueprint", combineExamples(selected));
   } catch (error) {
