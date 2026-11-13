@@ -1,0 +1,10 @@
+{
+  "name": "tupua-pixel-led-codex",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-first Pixel LED Codex visualization and example-to-blueprint prototype",
+  "scripts": {
+    "test": "node --test"
+  }
+}
