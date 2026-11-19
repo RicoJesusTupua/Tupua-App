@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101b25">
+<title>Tupua Life Record</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1118;--panel:#121d27;--line:#304452;--ink:#edf4f6;--muted:#a4b3bb;--gold:#d6b36a;--teal:#55c8b8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,sans-serif}.wrap{max-width:980px;margin:auto;padding:24px 18px 50px}header,.actions,.meta{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}h1{font-size:26px;margin:0}.muted,.hint{color:var(--muted);font-size:13px}.notice{margin:18px 0;padding:13px 15px;border:1px solid #806b3f;background:#292315;border-radius:10px;color:#f0dfb6}.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin:16px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}label{display:block;font-size:12px;font-weight:700;color:#c6d3d9;margin-bottom:5px}.wide{grid-column:1/-1}input,select,textarea{width:100%;padding:10px 11px;background:#0b141c;color:var(--ink);border:1px solid var(--line);border-radius:8px;font:inherit}textarea{min-height:150px;resize:vertical}.btn{padding:9px 13px;border:1px solid var(--line);border-radius:9px;background:#1b2b37;color:var(--ink);font-weight:650;cursor:pointer;text-decoration:none}.primary{background:var(--gold);color:#1b1a15;border-color:var(--gold)}.record{border-top:1px solid var(--line);padding:16px 0}.record:first-child{border:0}.record h3{margin:5px 0 8px;font-size:17px}.record p{white-space:pre-wrap;overflow-wrap:anywhere}.tag{font-size:11px;color:#bce4dc;border:1px solid #3a625b;border-radius:30px;padding:2px 8px}.meta{justify-content:flex-start;color:var(--muted);font-size:12px}.record .body{margin:10px 0}.record details{font-size:12px;color:var(--muted)}.record summary{cursor:pointer}.empty{color:var(--muted);padding:22px 0}.danger{border-color:#80504c;color:#ffb8ae}@media(max-width:650px){.grid{grid-template-columns:1fr}.wide{grid-column:auto}}
+</style></head>
+<body><main class="wrap">
+<header><div><h1>Tupua Life Record</h1><div class="muted">Personal journal · evidence-aware chronology · consent-controlled exports</div></div><a class="btn" href="index.html">Back to Codex Studio</a></header>
+<div class="notice"><strong>Storage limitation:</strong> entries stay in this browser on this device. Browser storage is not encrypted and this is not a secure vault. Avoid highly sensitive details, passwords, private third-party information, or material that could put someone at risk. Nothing is sent to family, friends, public figures, companies, or agencies.</div>
+<div class="notice"><strong>Evidence note:</strong> an unknown substance cannot be identified from a name, feeling, appearance, or code label. Do not classify a substance as containing alien or biological material without reliable independent laboratory evidence. This journal changes descriptions in records only; it does not alter or test any physical substance.</div>
+<section class="panel">
+<h2>New record</h2>
+<form id="recordForm" class="grid">
+<div><label for="title">Record title</label><input id="title" maxlength="140" required placeholder="e.g. Personal mission and life testimony"></div>
+<div><label for="kind">Record type</label><select id="kind"><option>Personal journal</option><option>Firsthand testimony</option><option>Creative work</option><option>Project decision</option><option>Research note</option><option>Correction / follow-up</option></select></div>
+<div><label for="eventTime">When the event happened (optional)</label><input id="eventTime" type="datetime-local"></div>
+<div><label for="status">Evidence / statement category</label><select id="status"><option>Personal account — not independently verified</option><option>Direct observation</option><option>Supported by attached or cited source</option><option>Independently corroborated</option><option>Interpretation or inference</option><option>Hypothesis or question</option><option>Belief, spiritual reflection, or metaphor</option><option>Fiction</option></select></div>
+<div class="wide"><label for="statement">Your statement (preserved as entered)</label><textarea id="statement" required placeholder="Write what you remember, what you observed, and what you are unsure about. Keep facts and interpretations distinct."></textarea></div>
+<div class="wide"><label for="evidence">Source references or context (optional)</label><textarea id="evidence" style="min-height:75px" placeholder="List document names, dates, or source links. Do not include passwords or sensitive personal data."></textarea></div>
+<div class="wide hint">Recording timestamp is generated when you save. It is separate from the optional event date. A device timestamp is not independent proof that an event occurred.</div>
+<div class="wide actions"><button class="btn primary" type="submit">Save private record</button><span class="hint">Visibility: Private to this browser profile · No automatic sharing</span></div>
+</form></section>
+<section class="panel"><div class="actions"><div><h2 style="margin:0">Your chronology</h2><div class="muted" id="count">0 records</div></div><div class="actions"><button class="btn" id="export">Export JSON backup</button><button class="btn danger" id="clear">Clear this browser's records</button></div></div><div id="records"><div class="empty">No records yet. Your first entry will appear here.</div></div></section>
+<p class="hint">Corrections should be added as new linked records rather than silently rewriting earlier testimony. This tool does not determine whether an allegation is true or whether a law was broken.</p>
+</main>
+<script>
+(()=>{"use strict";
+const KEY="tupua-life-record-v1";
+const $=id=>document.getElementById(id);
+const safeLoad=()=>{try{const v=JSON.parse(localStorage.getItem(KEY)||"[]");return Array.isArray(v)?v:[]}catch(_){return[]}};
+let records=safeLoad();
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=s=>{const d=new Date(s);return Number.isNaN(d.getTime())?"Unknown":d.toLocaleString()+" ("+d.toISOString()+")"};
+function render(){
+$("count").textContent=records.length+" record"+(records.length===1?"":"s");
+$("records").innerHTML=records.length?records.slice().reverse().map(r=>'<article class="record"><div class="meta"><span class="tag">'+esc(r.kind)+'</span><span>'+esc(r.status)+'</span></div><h3>'+esc(r.title)+'</h3><div class="meta"><span>Recorded: '+esc(fmt(r.recordedAt))+'</span>'+(r.eventTime?'<span>Event time stated: '+esc(fmt(r.eventTime))+'</span>':'')+'</div><p class="body">'+esc(r.statement)+'</p>'+(r.evidence?'<details><summary>Source references / context</summary><p>'+esc(r.evidence)+'</p></details>':'')+'<div class="meta"><span>Record ID: '+esc(r.id)+'</span><span>Private · local browser only</span></div></article>').join(""):'<div class="empty">No records yet. Your first entry will appear here.</div>';
+}
+$("recordForm").addEventListener("submit",e=>{
+e.preventDefault();
+const title=$("title").value.trim(),statement=$("statement").value.trim();
+if(!title||!statement)return;
+const record={id:(crypto.randomUUID?crypto.randomUUID():"record-"+Date.now()),recordedAt:new Date().toISOString(),eventTime:$("eventTime").value?new Date($("eventTime").value).toISOString():null,title,kind:$("kind").value,status:$("status").value,statement,evidence:$("evidence").value.trim(),privacy:"private",schemaVersion:1};
+records.push(record);
+try{localStorage.setItem(KEY,JSON.stringify(records));$("recordForm").reset();render();}catch(err){records.pop();alert("Could not save. Browser storage may be full or unavailable. Export or remove older records.");}
+});
+$("export").addEventListener("click",()=>{
+const bundle={product:"Tupua Life Record",schemaVersion:1,exportedAt:new Date().toISOString(),records};
+const blob=new Blob([JSON.stringify(bundle,null,2)],{type:"application/json"});
+const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="tupua-life-record-"+new Date().toISOString().slice(0,10)+".json";a.click();URL.revokeObjectURL(url);
+});
+$("clear").addEventListener("click",()=>{
+if(!confirm("Permanently clear the Life Record entries stored in this browser? Export a backup first if you may need them."))return;
+records=[];localStorage.removeItem(KEY);render();
+});
+render();
+})();
+</script></body></html>
